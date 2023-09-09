@@ -6,20 +6,19 @@
     <nav>
         <ul>
             <li>CS 3550</li>
-            <li><a href="/static/assignments.html">Assignments</a></li>
-            <li><a href="/static/profile.html">Profile</a></li>
+            <li><a title="Links to assignments page" href="/static/assignments.html">Assignments</a></li>
+            <li><a title="Links to profile page" href="/static/profile.html">Profile</a></li>
         </ul>
     </nav>
 </header>
 
 <main>
     <h1>Log in</h1><hr>
-    
-<form>
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username"><br>
-    <label for="password">Password:</label>
-    <input type="text" id="password" name="password"><br><br>
-    <button>Log in</button>
-  </form> 
+    <form action="profile.html">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" tabindex="1" autofocus><br>
+        <label for="password">Password:</label>
+        <input type="text" id="password" name="password" tabindex="2"><br><br>
+        <button tabindex="3">Log in</button>
+    </form> 
 </main>

@@ -23,7 +23,7 @@ table {
     line-height: 1.5;
     width: 100%;
 }
-table th {
+.table-border-bottom {
     border-bottom: 1px solid lightgray;
 }
 
@@ -132,6 +132,9 @@ img {border: 2px solid black; }
 .login-form button {width: 50%;}
 .login-form .form-button {
     text-align: center;
+}
+.assignments-table {
+    margin-top: 1rem;
 }
 
 /* submissions page form */

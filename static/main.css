@@ -5,6 +5,13 @@ html, body {
     line-height: 1.25;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+}
+
+main {
+    padding: 0 1rem;
+    max-width: 50rem;
+    margin: 0 auto;
 }
 
 code {
@@ -14,6 +21,18 @@ code {
 
 table {
     line-height: 1.5;
+    width: 100%;
+}
+table th {
+    border-bottom: 1px solid lightgray;
+}
+
+.right-align {
+    text-align: right;
+}
+
+.left-align {
+    text-align: left;
 }
 
 /* navigation bar */
@@ -28,16 +47,24 @@ header::after {
     clear: both;
 }
 nav ul {
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     list-style-type: none;
     display: flex;
+    max-width: 50rem;
+    padding: 0 1rem;
 }
 nav a {
     font-size: 1.5rem;
     color: dimgrey;
     text-decoration: none;
     margin-left: 1rem;
+}
+nav a:hover {
+    text-decoration: underline;
+}
+nav a:active {
+    color: black;
 }
 nav .CS3550 {
     float: left;
@@ -87,5 +114,28 @@ h1 {
 /* image border */
 img {border: 2px solid black; }
 
-/* login page sizing */
-.login-form * {font-size: 1.25rem;}
+/* login page form */
+.login-form * {
+    font-size: 1.25rem;
+}
+.login-form {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.login-form label {padding-right: 1rem; }
+.login-form input {
+    width: 50%;
+    float: right;
+}
+.login-form button {width: 50%;}
+.login-form .form-button {
+    text-align: center;
+}
+
+/* submissions page form */
+.submissions-form .form-buttons {
+    display: flex;
+    gap: 1rem;
+}

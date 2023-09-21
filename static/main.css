@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:ital,wght@0,400;0,700;1,400&display=swap');
 
-body {
+html, body {
     font-family: 'IBM Plex Sans', sans-serif;
     line-height: 1.25;
+    margin: 0;
+    padding: 0;
 }
 
 code {
@@ -14,23 +16,79 @@ table {
     line-height: 1.5;
 }
 
+header {
+    background-color: lightgray;
+    box-shadow: 0 0 5px gray;
+    margin-bottom: 3rem;
+}
+
+header::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
 nav ul {
+    margin: 0;
+    padding: 0;
     list-style-type: none;
+    display: flex;
+}
+
+nav a {
     font-size: 1.5rem;
+    color: dimgrey;
+    text-decoration: none;
+    margin-left: 1rem;
 }
 
-.description h2 {
+nav .CS3550 {
+    float: left;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+nav .profile {
+    margin-left: auto;
+}
+
+.login-form * {
+    font-size: 1.25rem;
+}
+
+.description .title {
     font-size: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
-.login-form label {
-    font-size: 1.25rem;
+h1 {
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 0;
 }
 
-.login-form input {
-    font-size: 1.25rem;
+.due-date {
+    margin-top: 0.5rem;
 }
 
-.login-form button {
-    font-size: 1.25rem;
+.submissions {
+    padding: 1rem;
+    border: 2px solid darkblue;
+    background-color: rgb(169, 192, 245);
+}
+
+.submission-number {
+    margin-top: 0;
+}
+
+.submission-assigned {
+    margin-bottom: 0;
+}
+
+.grade {
+    float: right;
+}
+
+img {
+    border: 2px solid black;
 }

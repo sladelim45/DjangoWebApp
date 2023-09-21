@@ -6,25 +6,25 @@
 <header>
     <nav>
         <ul>
-            <hr>CS 3550</hr>
+            <li class="CS3550">CS 3550</li>
             <li><a title="Links to assignments page" href="/static/assignments.html">Assignments</a></li>
-            <li><a title="Links to profile page" href="/static/profile.html">Profile</a></li>
+            <li class="profile"><a title="Links to profile page" href="/static/profile.html">Profile</a></li>           
         </ul>
     </nav>
 </header>
 
 <main>
-    <h1>Homework 1 (HTML)</h1><hr>
-    <p>Due September 08, total of 100 points</p>
+    <h1>Homework 1 (HTML)</h1>
+    <p class="due-date">Due September 08, total of 100 points</p>
     <div class="submissions">
-        <p>Currently 2/3 submissions</p>
-        <p>1 submission assigned to you
-            <a title="Links to submissions page" href="submissions.html">Grade</a>
+        <p class="submission-number">Currently 2/3 submissions</p>
+        <p class="submission-assigned">1 submission assigned to you
+            <a title="Links to submissions page" href="submissions.html" class="grade">Grade</a>
         </p>
     </div>
 
     <div class="description">
-        <h2>Description</h2>
+        <h2 class="title">Description</h2>
         <p>In this assignment, you will set up a web server serving HTML web pages for the grading application:</p>
         <ul>
             <li>Configure and start a <em>basic web server</em> using Django</li>

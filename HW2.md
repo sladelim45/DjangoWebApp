@@ -11,8 +11,8 @@ In this assignment, I completed:
 
 I discussed this assignment with:
 
-- ...
-- ...
+- Alberto del Rosario
+- Ethan Falconer
 - ...
 
 [X] I solemly swear that I wrote every line of code submitted as part

@@ -3,7 +3,8 @@ from . import models
 
 # Create your views here.
 def assignments(request):
-    return render(request, "assignments.html")
+    all_assignments = models.Assignment.objects.order_by("deadline")
+    return render(request, "assignments.html", {'assignments': all_assignments})
 def index(request, assignment_id):
     return render(request, "index.html")
 def submissions(request, assignment_id):

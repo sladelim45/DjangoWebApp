@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 from grades import views
 
+handler404 = 'views.assignment_not_found'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.assignments),

@@ -14,24 +14,18 @@
 </header>
 
 <main>
-    <h1>Homework 1 (HTML)</h1>
-    <p class="due-date">Due September 08, total of 100 points</p>
+    <h1>{{ assignment.title }}</h1>
+    <p class="due-date">Due {{ assignment.deadline|date:"F d"}}, total of {{ assignment.weight }} points</p>
     <div class="index-action">
-        <p class="index-action-desc1">Currently 2/3 submissions</p>
-        <p class="index-action-desc2">1 submission assigned to you
-            <a title="Links to submissions page" href="submissions.html" class="action-grade-button">Grade</a>
+        <p class="index-action-desc1">Currently {{ total_submissions }}/{{ total_students }} submission{{ total_submissions|pluralize:"s" }}</p>
+        <p class="index-action-desc2">{{ submissions_assigned_to_you }} submission{{submissions_assigned_to_you|pluralize:"s" }} assigned to you
+            <a title="Links to submissions page" href="/{{ assignment.id }}/submissions " class="action-grade-button">Grade</a>
         </p>
     </div>
 
     <div class="description">
         <h2 class="title">Description</h2>
-        <p>In this assignment, you will set up a web server serving HTML web pages for the grading application:</p>
-        <ul>
-            <li>Configure and start a <em>basic web server</em> using Django</li>
-            <li>Create <em>basic web pages</em> using HTML for data/content</li>
-        </ul>
-        <p>For example, here is a page <strong>you will make</strong>, in a file called <code>assignments.html</code></p>
-        <img src="/static/assignments.png" alt="Sample image of what assignments.html looks like">
+        <p>{{ assignment.description|safe }}</p>
     </div>
 </main>
 

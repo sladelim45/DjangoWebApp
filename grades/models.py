@@ -9,9 +9,15 @@ class Assignment(models.Model):
     weight = models.PositiveIntegerField()
     points = models.PositiveIntegerField()
 
+    def __str__(self):
+        return self.title
+
 class Submission(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     grader = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='graded_set')
     file = models.FileField()
     score = models.FloatField(blank=True, null=True, default=None)
+
+    def __str__(self):
+        return f"Submission for {self.assignment.title} by {self.author.username}"

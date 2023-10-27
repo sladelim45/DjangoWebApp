@@ -1,23 +1,10 @@
-<!DOCTYPE html>
-<title>Assignment 1 (HTML) - CS 3500</title>
-<meta charset="utf-8">
-<link rel="icon" href="/static/favicon.ico">
-<link rel="stylesheet" href="/static/main.css">
-<header>
-    <nav>
-        <ul>
-            <li class="CS3550">CS 3550</li>
-            <li><a title="Links to assignments page" href="/static/assignments.html">Assignments</a></li>
-            <li class="profile"><a title="Links to profile page" href="/static/profile.html">Profile</a></li>           
-        </ul>
-    </nav>
-</header>
+{% include "header.html" with title=assignment.title %}
 
 <main>
     <h1>{{ assignment.title }}</h1>
-    <p class="due-date">Due {{ assignment.deadline|date:"F d"}}, total of {{ assignment.weight }} points</p>
+    <p class="due-date">Due {{ assignment.deadline|date:"F d"}}, total of {{ assignment.weight }} point{{ assignment.weight|pluralize:"s"}}</p>
     <div class="index-action">
-        <p class="index-action-desc1">Currently {{ total_submissions }}/{{ total_students }} submission{{ total_submissions|pluralize:"s" }}</p>
+        <p class="index-action-desc1">Currently {{ total_submissions }}/{{ total_students }} submission{{ total_students|pluralize:"s" }}</p>
         <p class="index-action-desc2">{{ submissions_assigned_to_you }} submission{{submissions_assigned_to_you|pluralize:"s" }} assigned to you
             <a title="Links to submissions page" href="/{{ assignment.id }}/submissions " class="action-grade-button">Grade</a>
         </p>

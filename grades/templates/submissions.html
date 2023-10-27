@@ -1,47 +1,31 @@
-<!DOCTYPE html>
-<title>Submissions - CS 3500</title>
-<meta charset="utf-8">
-<link rel="icon" href="/static/favicon.ico">
-<link rel="stylesheet" href="/static/main.css">
-<header>
-  <nav>
-      <ul>
-          <li class="CS3550">CS 3550</li>
-          <li><a title="Links to assignments page" href="/static/assignments.html">Assignments</a></li>
-          <li class="profile"><a title="Links to profile page" href="/static/profile.html">Profile</a></li>           
-      </ul>
-  </nav>
-</header>
+{% include "header.html" with title="Submissions" %}
 
 <main>
-    <h1>Homework 1 (HTML)</h1>
-    <p class="submissions-desc">All grades out of 100</p>
-    <form action="index.html" class="submissions-form">
+    <h1>{{ assignment.title }}</h1>
+    <p class="submissions-desc">All grades out of {{ assignment.points }} </p>
+    <form action="/{{ assignment.id }}/grade" method="post" class="submissions-form">
+      {% csrf_token %}
       <table>
         <tr>
           <th class="left-align table-border-bottom">Student</th>
           <th class="left-align table-border-bottom">Submission</th>
           <th class="left-align table-border-bottom">Grade</th>
         </tr>
-        <tr>
-          <td>s1</td>
-          <td><a title="Links to s1 submission" href="#">Submission</a></td>
-          <td>
-            <input title="s1 grade" type="number" min="1" max="100">
-          </td>
-        </tr>
-        <tr>
-          <td>s2</td>
-          <td><a title="Links to s2 submission" href="#">Submission</a></td>
-          <td>
-            <input title="s2 grade" type="number" min="1" max="100">
-          </td>
-        </tr>
+
+        {% for submission in submissions %}
+          <tr>
+              <td>{{ submission.author.username }}</td>
+              <td><a title="Links to {{ submission.author.username }} submission" href="{{ submission.file.url }}">Submission</a></td>
+              <td>
+                  <input title="{{ submission.author.username }} grade" type="number" name="grade-{{ submission.id }}" min=0 step=0.01 max={{assignment.points}} value={{submission.score}}>
+              </td>
+          </tr>
+        {% endfor %}
       </table>
       
       <div class="form-buttons">
         <button>Submit</button>
-      <a title="Links back to hw1 page" href="index.html" role="button">Back to assignment</a>
+        <a title="Links back to hw1 page" href="/{{ assignment.id }}/" role="button">Back to assignment</a>
       </div>
     </form>
 </main>

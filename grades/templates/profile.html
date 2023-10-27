@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<title>Profile - CS 3500</title>
-<meta charset="utf-8">
-<link rel="icon" href="/static/favicon.ico">
-<link rel="stylesheet" href="/static/main.css">
-<header>
-    <nav>
-        <ul>
-            <li class="CS3550">CS 3550</li>
-            <li><a title="Links to assignments page" href="/static/assignments.html">Assignments</a></li>
-            <li class="profile"><a title="Links to profile page" href="/static/profile.html">Profile</a></li>           
-        </ul>
-    </nav>
-</header>
+{% include "header.html" with title="Profile" %}
 
 <main>
     <h1>Your grades</h1>
@@ -26,45 +13,16 @@
             <th class="left-align table-border-bottom">Assignment</th>
             <th class="left-align table-border-bottom">Graded</th>
         </tr>
+
+        {% for item in assignments_and_counts %}
         <tr>
-        <td>
-            <a title="Links to github username assignment" href="/static/index.html">Github username</a>
-        </td>
-        <td>2/3</td>
+            <td>
+                <a title="Links to {{ item.assignment.title }} assignment" href="/{{ item.assignment.id }}/">{{ item.assignment.title }}</a>
+            </td>
+            <td>
+                {{ item.count }}
+            </td>
         </tr>
-        <tr>
-        <td>
-            <a title="Links to hw1 assignmnet" href="/static/index.html">Homework 1 (HTML)</a>
-        </td>
-        <td>Not due</td>
-        </tr>
-        <tr>
-        <td>
-            <a title="Links to hw2 assignmnet" href="/static/index.html">Homework 2 (CSS)</a></td>
-        <td>Not due</td>
-        </tr>
-        <tr>
-        <td>
-            <a title="Links to hw3 assignmnet" href="/static/index.html">Homework 3 (Backend)</a></td>
-        <td>Not due</td>
-        </tr>
-        <tr>
-        <td>
-            <a title="Links to hw4 assignmnet" href="/static/index.html">Homework 4 (Deploy)</a>
-        </td>
-        <td>Not due</td>
-        </tr>
-        <tr>
-        <td>
-            <a title="Links to hw5 assignmnet" href="/static/index.html">Homework 5 (Permissions)</a>
-        </td>
-        <td>Not due</td>
-        </tr>
-        <tr>
-        <td>
-            <a title="Links to hw6 assignmnet" href="/static/index.html">Homework 6 (JS)</a>
-        </td>
-        <td>Not due</td>
-        </tr>
+        {% endfor %}
     </table>
 </main>

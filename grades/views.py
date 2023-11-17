@@ -2,6 +2,7 @@ from django.http import Http404, HttpResponse
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from django.shortcuts import redirect, render
+from django.contrib.auth import authenticate, login, logout
 from . import models
 
 # Create your views here.
@@ -50,11 +51,28 @@ def profile(request):
         assignments_and_counts.append({'assignment': assignment, 'count': count})
 
     return render(request, "profile.html", {
-        'assignments_and_counts': assignments_and_counts
+        'assignments_and_counts': assignments_and_counts,
+        'user': request.user
     })
 
 def login_form(request):
-    return render(request, "login.html")
+    if request.method == 'POST':
+        username = request.POST.get('username', "")
+        password = request.POST.get('password', "")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('/profile/')
+        else:
+            return render(request, 'login.html', {'error_message': 'Invalid username or password'})
+
+    return render(request, 'login.html')
+
+def logout_form(request):
+    logout(request)
+    return redirect('/profile/login')
 
 @require_POST
 def grade(request, assignment_id):

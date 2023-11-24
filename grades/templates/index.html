@@ -3,12 +3,19 @@
 <main>
     <h1>{{ assignment.title }}</h1>
     <p class="due-date">Due {{ assignment.deadline|date:"F d"}}, total of {{ assignment.weight }} point{{ assignment.weight|pluralize:"s"}}</p>
-    <div class="index-action">
-        <p class="index-action-desc1">Currently {{ total_submissions }}/{{ total_students }} submission{{ total_students|pluralize:"s" }}</p>
-        <p class="index-action-desc2">{{ submissions_assigned_to_you }} submission{{submissions_assigned_to_you|pluralize:"s" }} assigned to you
-            <a title="Links to submissions page" href="/{{ assignment.id }}/submissions " class="action-grade-button">Grade</a>
-        </p>
-    </div>
+    
+    {% if is_ta %}
+        <div class="index-action">
+            <p class="index-action-desc1">Currently {{ total_submissions }}/{{ total_students }} submission{{ total_students|pluralize:"s" }}</p>
+            <p class="index-action-desc2">{{ submissions_assigned_to_you }} submission{{ submissions_assigned_to_you|pluralize:"s" }} assigned to you
+                <a title="Links to submissions page" href="/{{ assignment.id }}/submissions" class="action-grade-button">Grade</a>
+            </p>
+        </div>
+    {% else %}
+        <div class="index-action">
+            <p>No content for students</p>
+        </div>
+    {% endif %}
 
     <div class="description">
         <h2 class="title">Description</h2>

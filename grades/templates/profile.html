@@ -6,12 +6,12 @@
         <p class="profile-action-desc">Currently logged in as {{ user.username }}. 
             <a title="Logs the user out of account" href="/profile/logout/" role="button" class="action-logout-button">Log out</a>
         </p>
-        
     </form>
+    {% if is_ta %}
     <table>
         <tr>
             <th class="left-align table-border-bottom">Assignment</th>
-            <th class="left-align table-border-bottom">Graded</th>
+            <th class="right-align table-border-bottom">Graded</th>
         </tr>
 
         {% for item in assignments_and_counts %}
@@ -19,10 +19,33 @@
             <td>
                 <a title="Links to {{ item.assignment.title }} assignment" href="/{{ item.assignment.id }}/">{{ item.assignment.title }}</a>
             </td>
-            <td>
+            <td class="right-align">
                 {{ item.count }}
             </td>
         </tr>
         {% endfor %}
     </table>
+    {% else %}
+    <table>
+        <tr>
+            <th class="left-align table-border-bottom">Assignment</th>
+            <th class="right-align table-border-bottom">Score</th>
+        </tr>
+
+        {% for item in assignments_and_scores %}
+        <tr>
+            <td>
+                <a title="Links to {{ item.assignment.title }} assignment" href="/{{ item.assignment.id }}/">{{ item.assignment.title }}</a>
+            </td>
+            <td class="right-align">
+                {{ item.score }}
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th class="left-align">Final Grade</th>
+            <th class="right-align">{{ final_grade }}</th>
+        </tr>
+    </table>
+    {% endif %}
 </main>

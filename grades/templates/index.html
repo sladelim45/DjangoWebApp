@@ -13,7 +13,15 @@
         </div>
     {% else %}
         <div class="index-action">
-            <p>No content for students</p>
+            <p class="index-action-desc1">{{ submission_info|safe }}</p>
+            {% if not is_due %}
+                <form method="post" action="/{{ assignment.id}}/submit/" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" name="file" accept=".pdf, .doc, .docx" required>
+                    <button type="submit">Submit Assignment</button>
+                </form>
+            {% endif %}
+
         </div>
     {% endif %}
 

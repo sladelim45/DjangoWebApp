@@ -1,9 +1,11 @@
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Count, Q
+from django.core.exceptions import PermissionDenied
 from . import models
 
 def is_student(user):
@@ -37,10 +39,34 @@ def index(request, assignment_id):
                 'is_ta': is_ta(request.user),
             })
         else:
+            submission_info = None
+            is_due = None
+            try:
+                submission = models.Submission.objects.get(assignment=asgn, author=request.user)
+                filename = submission.file.name
+                if submission.score is not None:
+                    submission_info = f'Your submission, <a href="{submission.file.url}">{filename}</a>, received {round(submission.score, 1)}/{round(asgn.points, 1)} ({round(submission.score/asgn.points*100, 1)}%)'
+                    is_due = True
+                elif timezone.now() > asgn.deadline:
+                    submission_info = f'Your submission, <a href="{submission.file.url}">{filename}</a>, is being graded'
+                    is_due = True
+                else:
+                    submission_info = f'Your current submission is  <a href="{submission.file.url}">{filename}</a>'
+                    is_due = False
+            except:
+                if timezone.now() > asgn.deadline:
+                    submission_info = 'You did not submit this assignment and received 0 points'
+                    is_due = True
+                else:
+                    submission_info = 'No current submission'
+                    is_due = False
+
             return render(request, "index.html", {
                 'assignment': asgn,
                 'is_ta': is_ta(request.user),
-            })
+                'is_due': is_due,
+                'submission_info': submission_info,
+            })  
     except models.Assignment.DoesNotExist:
         raise Http404("Assignment not found")
 
@@ -156,7 +182,54 @@ def grade(request, assignment_id):
         raise Http404("Assignment not found")  
     except models.Submission.DoesNotExist:
         raise Http404("Submission not found")
+    
+@login_required
+@user_passes_test(is_student)
+@require_POST
+def submit(request, assignment_id):
+    try:
+        asgn = models.Assignment.objects.get(pk=assignment_id)
+        if timezone.now() > asgn.deadline:
+            return HttpResponseBadRequest("Assignment is past due.")
+        submitted_file = request.FILES.get('file')
+        try:
+            submission = models.Submission.objects.get(assignment=asgn, author=request.user)
+            submission.file = submitted_file
+        except:
+            submission = models.Submission.objects.create(assignment=asgn, author=request.user, file=submitted_file, score=None, grader=pick_grader(asgn))
+        submission.save()
+        return redirect(f"/{asgn.id}/")
+    except:
+        raise Http404("Assignment not found")
+    
+
+def pick_grader(assignment):
+    ta_group = models.Group.objects.get(name="Teaching Assistants")
+    tas = ta_group.user_set.all()
+    tas_annotated = tas.annotate(total_assigned=Count("graded_set", filter=Q(graded_set__assignment=assignment)))  
+    tas_ordered = tas_annotated.order_by('total_assigned')
+    grader = tas_ordered.first()
+    return grader
+
+@login_required
+def show_upload(request, filename):
+    try:
+        submission = models.Submission.objects.get(file=filename)
+
+        if not (request.user == submission.author or request.user == submission.grader or request.user.is_superuser):
+            raise PermissionDenied
         
+        with submission.file.open() as fd:
+            response = HttpResponse(fd)
+            response["Content-Disposition"] = \
+                f'attachment; filename="{submission.file.name}"'
+            return response
+
+    except models.Submission.DoesNotExist:
+        raise Http404("Submission not found")
+    except PermissionDenied:
+        raise PermissionDenied
+    
 # only is called when DEBUG is False in settings.py
 def assignment_not_found(request, exception=None):
     return HttpResponse("Assignment not found", status=404)

@@ -27,6 +27,8 @@ urlpatterns = [
     path('profile/logout/', views.logout_form),
     path("profile/login/", views.login_form),
     path("<int:assignment_id>/grade", views.grade),
+    path("<int:assignment_id>/submit/", views.submit),
+    path("uploads/<str:filename>/", views.show_upload),
 ]
 
 handler404 = 'grades.views.assignment_not_found'

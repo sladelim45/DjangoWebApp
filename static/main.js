@@ -55,3 +55,27 @@ function getNumericValue(text) {
         return parseFloat(text);
     }
 }
+
+export function make_form_async(form) {
+    form.on("submit", function(event) {
+        event.preventDefault();
+        const formData = new FormData($("form")[0]);
+        form.find('input[type="file"]').prop('disabled', true);
+        form.find('button[type="submit"]').prop('disabled', true);
+
+        $.ajax ({
+            url: form.attr("action"),
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentTyle: false,
+            mimeType: form.attr("enctye"),
+            success: function(response) {
+                form.replaceWith('Upload succeeded');
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+            }
+        })
+    })
+}

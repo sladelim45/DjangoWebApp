@@ -146,3 +146,7 @@ img {border: 2px solid black; }
     display: flex;
     gap: 1rem;
 }
+
+.bold {
+    font-weight: bold;
+}

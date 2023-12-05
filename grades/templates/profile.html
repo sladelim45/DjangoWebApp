@@ -9,43 +9,57 @@
     </form>
     {% if is_ta %}
     <table>
-        <tr>
-            <th class="left-align table-border-bottom">Assignment</th>
-            <th class="right-align table-border-bottom">Graded</th>
-        </tr>
-
-        {% for item in assignments_and_counts %}
-        <tr>
-            <td>
+        <thead>
+            <tr>
+                <th class="left-align table-border-bottom">Assignment</th>
+                <th class="right-align table-border-bottom">Graded</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for item in assignments_and_counts %}
+            <tr>
+                <td>
                 <a title="Links to {{ item.assignment.title }} assignment" href="/{{ item.assignment.id }}/">{{ item.assignment.title }}</a>
-            </td>
-            <td class="right-align">
-                {{ item.count }}
-            </td>
-        </tr>
+                </td>
+                <td class="right-align">{{ item.count }}</td>
+            </tr>
         {% endfor %}
+        </tbody>
     </table>
     {% else %}
     <table>
-        <tr>
-            <th class="left-align table-border-bottom">Assignment</th>
-            <th class="right-align table-border-bottom">Score</th>
-        </tr>
-
-        {% for item in assignments_and_scores %}
-        <tr>
-            <td>
+        <thead>
+            <tr>
+                <th class="left-align table-border-bottom">Assignment</th>
+                <th class="right-align table-border-bottom">Score</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for item in assignments_and_scores %}
+            <tr>
+                <td>
                 <a title="Links to {{ item.assignment.title }} assignment" href="/{{ item.assignment.id }}/">{{ item.assignment.title }}</a>
-            </td>
-            <td class="right-align">
-                {{ item.score }}
-            </td>
-        </tr>
+                </td>
+                <td class="right-align">{{ item.score }}</td>
+            </tr>
         {% endfor %}
-        <tr>
-            <th class="left-align">Final Grade</th>
-            <th class="right-align">{{ final_grade }}</th>
-        </tr>
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td class="left-align bold">Final Grade</td>
+                <td class="right-align bold">{{ final_grade }}</td>
+            </tr>
+        </tfoot>
     </table>
     {% endif %}
 </main>
+
+<script type="module">
+    import {make_table_sortable} from "/static/main.js";
+
+    console.log("called");
+    make_table_sortable($("table"));
+</script>

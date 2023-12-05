@@ -3,19 +3,28 @@
 <main>
     <h1>All assignments</h1>
     <table class="assignments-table">
-        <tr>
-            <th class="left-align">Assignment</th>
-            <th class="left-align">Due Date</th>
-            <th class="right-align">Weight</th>
-        </tr>
-        {% for assignment in assignments %}
-        <tr>
-            <td class="left-align">
+        <thead>
+            <tr>
+                <th class="left-align">Assignment</th>
+                <th class="left-align sortable">Due Date</th>
+                <th class="right-align sortable">Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assignment in assignments %}
+            <tr data-index="{{ forloop.counter }}">
+                <td class="left-align">
                 <a href="/{{ assignment.id }}/">{{ assignment.title }}</a>
-            </td>
-            <td class="left-align">{{ assignment.deadline|date:"M d" }}</td>
-            <td class="right-align">{{ assignment.weight }}</td>
-        </tr>
-        {% endfor %}
+                </td>
+                <td class="left-align" data-value="{{ assignment.deadline|date:'U' }}">{{ assignment.deadline|date:"M d" }}</td>
+                <td class="right-align" data-value="{{ assignment.weight }}">{{ assignment.weight }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </main>
+
+<script type="module">
+    import {make_table_sortable} from "/static/main.js";
+    make_table_sortable($("table"));
+</script>

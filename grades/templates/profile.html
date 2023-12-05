@@ -12,19 +12,19 @@
         <thead>
             <tr>
                 <th class="left-align table-border-bottom">Assignment</th>
-                <th class="right-align table-border-bottom">Graded</th>
+                <th class="right-align table-border-bottom sortable">Graded</th>
             </tr>
         </thead>
         
         <tbody>
             {% for item in assignments_and_counts %}
-            <tr>
+            <tr data-index="{{ forloop.counter }}">
                 <td>
                 <a title="Links to {{ item.assignment.title }} assignment" href="/{{ item.assignment.id }}/">{{ item.assignment.title }}</a>
                 </td>
-                <td class="right-align">{{ item.count }}</td>
+                <td class="right-align" data-value="{{ item.count }}">{{ item.count }}</td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
     {% else %}
@@ -32,19 +32,19 @@
         <thead>
             <tr>
                 <th class="left-align table-border-bottom">Assignment</th>
-                <th class="right-align table-border-bottom">Score</th>
+                <th class="right-align table-border-bottom sortable">Score</th>
             </tr>
         </thead>
         
         <tbody>
             {% for item in assignments_and_scores %}
-            <tr>
+            <tr data-index="{{ forloop.counter }}">
                 <td>
                 <a title="Links to {{ item.assignment.title }} assignment" href="/{{ item.assignment.id }}/">{{ item.assignment.title }}</a>
                 </td>
-                <td class="right-align">{{ item.score }}</td>
+                <td class="right-align" data-value="{{ item.score }}">{{ item.score }}</td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
 
         <tfoot>

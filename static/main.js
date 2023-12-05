@@ -7,30 +7,40 @@ export function say_hi(elt) {
 say_hi($("h1"));
 
 export function make_table_sortable(table) {
-    console.log("called in main")
-    const lastHeaderCell = table.find("th:last")
-    lastHeaderCell.on("click", function() {
-        if (lastHeaderCell.hasClass('sort-desc') || !lastHeaderCell.hasClass('sort-asc')) {
+    const sortableHeaders = table.find("th.sortable")
+    sortableHeaders.on("click", function() {
+        const currHeader = $(this);
+        const colNum = currHeader.index();
+        if (!currHeader.hasClass('sort-desc') && !currHeader.hasClass('sort-asc')) {
             console.log("sorting ascending")
-            lastHeaderCell.removeClass('sort-desc').addClass('sort-asc');
-            sortTable(table, "asc");
-        } else {
-            console.log("sorting descending")
-            lastHeaderCell.removeClass('sort-asc').addClass('sort-desc');
-            sortTable(table, "desc");
+            sortableHeaders.removeClass('sort-asc sort-desc');
+            currHeader.removeClass('sort-desc').addClass('sort-asc');
+            sortTable(table, "asc", colNum);
+        } else if (currHeader.hasClass('sort-asc')) {
+            console.log("sorting descending");
+            sortableHeaders.removeClass('sort-asc sort-desc');
+            currHeader.removeClass('sort-asc').addClass('sort-desc');
+            sortTable(table, "desc", colNum);
+        } else if (currHeader.hasClass('sort-desc')) {
+            console.log("unsorting");
+            currHeader.removeClass('sort-desc');
+            sortableHeaders.removeClass('sort-asc sort-desc');
+            sortTable(table, "unsorted", colNum);
         }
     })
 }
 
-function sortTable(table, order) {
+function sortTable(table, order, colNum) {
     const rows = table.find("tbody").find("tr").toArray();
     rows.sort(function(a, b) {
-        const numA = getNumericValue($(a).find("td:last").text());
-        const numB = getNumericValue($(b).find("td:last").text());
+        const numA = getNumericValue(String($(a).find(`td:eq(${colNum})`).data("value")));
+        const numB = getNumericValue(String($(b).find(`td:eq(${colNum})`).data("value")));
         if (order === "asc") {
             return numA - numB;
-        } else {
+        } else if (order === "desc") {
             return numB - numA;
+        } else {
+            return $(a).data("index") - $(b).data("index")
         }
     });
     $(rows).appendTo(table.find("tbody"));

@@ -39,6 +39,10 @@ table {
     text-align: left;
 }
 
+th.sortable { cursor: pointer; }
+th.sort-asc::after { content: " \25b2;" }
+th.sort-desc::after { content: " \25bc;" }
+
 /* navigation bar */
 header {
     background-color: lightgray;

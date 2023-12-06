@@ -79,3 +79,60 @@ export function make_form_async(form) {
         })
     })
 }
+
+export function make_grade_hypothesized(table){
+    const hypothesizeButton = $("<button>").text("Hypothesize").insertBefore(table);
+    hypothesizeButton.on("click", function() {
+        if (table.hasClass("hypothesized")) {
+            table.removeClass("hypothesized");
+            hypothesizeButton.text("Hypothesize");
+
+            const numberInputs = table.find("td:has(:input.hypothesized-grade)");
+            numberInputs.each(function() {
+                const originalText = $(this).data("originalText");
+                $(this).data("value", originalText)
+                $(this).html(originalText);
+            })
+            grade_computation(table);
+        } else {
+            table.addClass("hypothesized");
+            hypothesizeButton.text("Actual grades");
+
+            const targetRows = table.find("td:contains('Not Due'), td:contains('Ungraded')");
+            targetRows.each(function() {
+                const originalText = $(this).text();
+                $(this).html("<input type='number' class='hypothesized-grade'>");
+                $(this).data("originalText", originalText);
+                $(this).data("value", "");
+            });
+
+            table.find(".hypothesized-grade").on("change", function() {
+                $(this).parent().data("value", $(this).val() + "%");
+                grade_computation(table);
+            });
+            grade_computation(table);
+        }
+    })
+}
+
+function grade_computation(table) {
+    const scoreColumn = table.find("tbody").find("tr td:last-child");
+    console.log(scoreColumn);
+    let total_avaliable = 0;
+    let total_earned = 0;
+    scoreColumn.each(function() {
+        const val = $(this).data("value")
+        console.log("value: ", val);
+        const weight = parseFloat($(this).data("weight"));
+        if (val.includes("Missing")) {
+            total_avaliable += weight;
+        } else if (val.includes("%")) {
+            const percent = parseFloat(val.split("%")[0]);
+            total_avaliable += weight;
+            total_earned += percent * weight;
+        }
+    });
+
+    const finalGrade = (total_earned / total_avaliable).toFixed(1) + "%";
+    table.find("tfoot").find("tr td:last").text(finalGrade);
+}

@@ -42,7 +42,7 @@
                 <td>
                 <a title="Links to {{ item.assignment.title }} assignment" href="/{{ item.assignment.id }}/">{{ item.assignment.title }}</a>
                 </td>
-                <td class="right-align" data-value="{{ item.score }}">{{ item.score }}</td>
+                <td class="right-align" data-value="{{ item.score }}" data-weight="{{ item.assignment.weight }}">{{ item.score }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -58,8 +58,8 @@
 </main>
 
 <script type="module">
-    import {make_table_sortable} from "/static/main.js";
+    import {make_table_sortable, make_grade_hypothesized} from "/static/main.js";
 
-    console.log("called");
     make_table_sortable($("table"));
+    make_grade_hypothesized($("table"));
 </script>

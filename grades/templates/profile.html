@@ -54,12 +54,15 @@
             </tr>
         </tfoot>
     </table>
+
+    <script type="module">
+        import {make_grade_hypothesized} from "/static/main.js";
+        make_grade_hypothesized($("table"));
+    </script>
     {% endif %}
 </main>
 
 <script type="module">
     import {make_table_sortable, make_grade_hypothesized} from "/static/main.js";
-
     make_table_sortable($("table"));
-    make_grade_hypothesized($("table"));
 </script>

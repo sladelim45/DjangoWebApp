@@ -3,7 +3,7 @@
 <main>
     <h1>{{ assignment.title }}</h1>
     <p class="submissions-desc">All grades out of {{ assignment.points }} </p>
-    <form action="/{{ assignment.id }}/grade" method="post" class="submissions-form">
+    <form action="/{{ assignment.id }}/grade/" method="post" class="submissions-form">
       {% csrf_token %}
       <table>
         <tr>

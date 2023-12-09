@@ -8,7 +8,7 @@
         <div class="index-action">
             <p class="index-action-desc1">Currently {{ total_submissions }}/{{ total_students }} submission{{ total_students|pluralize:"s" }}</p>
             <p class="index-action-desc2">{{ submissions_assigned_to_you }} submission{{ submissions_assigned_to_you|pluralize:"s" }} assigned to you
-                <a title="Links to submissions page" href="/{{ assignment.id }}/submissions" class="action-grade-button">Grade</a>
+                <a title="Links to submissions page" href="/{{ assignment.id }}/submissions/" class="action-grade-button">Grade</a>
             </p>
         </div>
     {% else %}
